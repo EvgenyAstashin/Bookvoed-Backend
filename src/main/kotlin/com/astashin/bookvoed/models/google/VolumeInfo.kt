@@ -6,7 +6,7 @@ data class VolumeInfo(
     val canonicalVolumeLink: String,
     val categories: List<String>,
     val contentVersion: String,
-    val description: String,
+    val description: String?,
     val industryIdentifiers: List<IndustryIdentifier>,
     val infoLink: String,
     val language: String,
@@ -14,8 +14,8 @@ data class VolumeInfo(
     val pageCount: Int,
     val previewLink: String,
     val printType: String,
-    val publishedDate: String,
+    val publishedDate: String?,
     val readingModes: ReadingModes,
-    val subtitle: String,
-    val title: String
+    val subtitle: String?,
+    val title: String?
 )

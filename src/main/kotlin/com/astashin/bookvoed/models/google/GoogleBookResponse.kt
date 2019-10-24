@@ -12,13 +12,13 @@ data class GoogleBookResponse(
             val googleBookItem = items.first()
             val book = Book()
             book.isbn = getISBN(googleBookItem)
-            book.title = googleBookItem.volumeInfo.title
-            book.subtitle = googleBookItem.volumeInfo.subtitle
-            book.description = googleBookItem.volumeInfo.description
+            book.title = googleBookItem.volumeInfo.title?: ""
+            book.subtitle = googleBookItem.volumeInfo.subtitle?: ""
+            book.description = googleBookItem.volumeInfo.description?: ""
             book.authors = googleBookItem.volumeInfo.authors
             book.pages = googleBookItem.volumeInfo.pageCount
             book.publisher = ""
-            book.publishedDate = googleBookItem.volumeInfo.publishedDate
+            book.publishedDate = googleBookItem.volumeInfo.publishedDate?: ""
             return book
         }
         return null

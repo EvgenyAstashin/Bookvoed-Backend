@@ -23,6 +23,10 @@ class BookHandler : IBookHandler {
         return book
     }
 
+    override fun getAllStoredBooks(): List<Book> {
+        return bookRepository.findAll()
+    }
+
     private fun loadBookFromGoogleBooks(isbn: String): GoogleBookResponse {
         val googleBookJson =  URL("https://www.googleapis.com/books/v1/volumes?q=isbn:$isbn&key=AIzaSyDau66ejImbYqQznYhJ8qEF_tw440myAIQ").readText()
         return Gson().fromJson<GoogleBookResponse>(googleBookJson, GoogleBookResponse::class.java)

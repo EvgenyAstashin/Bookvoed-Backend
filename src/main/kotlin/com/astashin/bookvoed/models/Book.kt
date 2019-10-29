@@ -13,4 +13,5 @@ class Book() {
     var pages: Int = 0
     var publisher: String = ""
     var publishedDate: String = ""
+    var image = ""
 }

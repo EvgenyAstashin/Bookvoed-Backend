@@ -19,6 +19,7 @@ data class GoogleBookResponse(
             book.pages = googleBookItem.volumeInfo.pageCount
             book.publisher = ""
             book.publishedDate = googleBookItem.volumeInfo.publishedDate?: ""
+            book.image = googleBookItem.volumeInfo.imageLinks?.thumbnail?: ""
             return book
         }
         return null

@@ -2,7 +2,7 @@ package com.astashin.bookvoed
 
 import com.astashin.bookvoed.models.Book
 import com.astashin.bookvoed.models.google.GoogleBookResponse
-import com.astashin.bookvoed.models.repositories.BookRepository
+import com.astashin.bookvoed.repositories.BookRepository
 import com.google.gson.Gson
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull

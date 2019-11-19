@@ -2,7 +2,7 @@ package com.astashin.bookvoed.models
 
 import org.springframework.data.annotation.Id
 
-class Book() {
+class Book {
 
     @Id
     var isbn: String = ""

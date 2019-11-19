@@ -25,7 +25,7 @@ class BookController {
         return bookHandler.getBookByISBN(isbn)
     }
 
-    @GetMapping(value = ["/"], produces = [MediaType.APPLICATION_JSON_VALUE])
+    @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getAllStoredBooks(): List<Book> {
         return bookHandler.getAllStoredBooks()
     }

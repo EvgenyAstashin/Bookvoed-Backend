@@ -6,6 +6,7 @@ import com.astashin.bookvoed.http.responses.Jwt
 import com.astashin.bookvoed.models.User
 import com.astashin.bookvoed.repositories.UserRepository
 import com.astashin.bookvoed.security.JwtProvider
+import com.mongodb.MongoWriteException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.security.authentication.AuthenticationManager
@@ -13,6 +14,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.*
+import java.lang.RuntimeException
+import javax.servlet.http.HttpServletResponse
 
 @RestController
 @RequestMapping(UserController.PATH)
@@ -50,6 +53,11 @@ class UserController {
 
         val token = generateToken(request.username, request.passphrase)
         return Jwt(token)
+    }
+
+    @ExceptionHandler(MongoWriteException::class)
+    fun handleUserInsertingException(response: HttpServletResponse) {
+        response.sendError(HttpServletResponse.SC_CONFLICT, "Fail -> Username is already taken!")
     }
 
     private fun generateToken(username: String, passphrase: String): String {

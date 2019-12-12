@@ -1,3 +1,3 @@
 package com.astashin.bookvoed.http.requests
 
-class BadRequest(val message: String)
+class AddBookToUserListRequest(isbn: String)

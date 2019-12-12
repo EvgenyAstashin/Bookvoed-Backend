@@ -1,6 +1,5 @@
 package com.astashin.bookvoed.security
 
-import com.astashin.bookvoed.controllers.UserController
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
@@ -56,7 +55,8 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     private fun configureTokenHandling(http: HttpSecurity) {
         http.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers("${UserController.PATH}/**").permitAll()
+                .antMatchers("/users/login").permitAll()
+                .antMatchers("/users/registration").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

@@ -2,12 +2,11 @@ package com.astashin.bookvoed.controllers
 
 import com.astashin.bookvoed.IBookHandler
 import com.astashin.bookvoed.models.Book
+import com.astashin.bookvoed.models.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping(BookController.PATH)
@@ -28,5 +27,10 @@ class BookController {
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getAllStoredBooks(): List<Book> {
         return bookHandler.getAllStoredBooks()
+    }
+
+    @PostMapping
+    fun addBookToUserList(@AuthenticationPrincipal user: User) {
+
     }
 }

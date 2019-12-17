@@ -4,6 +4,7 @@ import com.astashin.bookvoed.http.requests.LoginRequest
 import com.astashin.bookvoed.http.requests.RegistrationRequest
 import com.astashin.bookvoed.http.requests.UserDataRequest
 import com.astashin.bookvoed.http.responses.Jwt
+import com.astashin.bookvoed.http.responses.LoginRegistrationResponse
 import com.astashin.bookvoed.models.User
 import com.astashin.bookvoed.repositories.UserRepository
 import com.astashin.bookvoed.security.JwtProvider
@@ -37,18 +38,20 @@ class UserController {
     lateinit var jwtProvider: JwtProvider
 
     @PostMapping(path = ["/login"], consumes = [MediaType.APPLICATION_JSON_VALUE])
-    fun loginUser(@RequestBody request: LoginRequest): Jwt {
+    fun loginUser(@RequestBody request: LoginRequest): LoginRegistrationResponse {
         val token = generateToken(request.username, request.passphrase)
-        return Jwt(token)
+        val user = userRepository.findByUserName(request.username)
+        return LoginRegistrationResponse(user, Jwt(token))
     }
 
     @PostMapping(path = ["/registration"], consumes = [MediaType.APPLICATION_JSON_VALUE])
     @ResponseStatus(HttpStatus.CREATED)
-    fun registerUser(@RequestBody request: RegistrationRequest): Jwt {
-        userRepository.insert(User(request.username, passwordEncoder.encode(request.passphrase)))
+    fun registerUser(@RequestBody request: RegistrationRequest): LoginRegistrationResponse {
+        val user = User(request.username, passwordEncoder.encode(request.passphrase))
+        userRepository.insert(user)
 
         val token = generateToken(request.username, request.passphrase)
-        return Jwt(token)
+        return LoginRegistrationResponse(user, Jwt(token))
     }
 
     @GetMapping()

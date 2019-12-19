@@ -3,6 +3,7 @@ package com.astashin.bookvoed.controllers
 import com.astashin.bookvoed.AvatarStorageService
 import com.astashin.bookvoed.http.requests.LoginRequest
 import com.astashin.bookvoed.http.requests.RegistrationRequest
+import com.astashin.bookvoed.http.requests.UploadAvatarRequest
 import com.astashin.bookvoed.http.requests.UserDataRequest
 import com.astashin.bookvoed.http.responses.Jwt
 import com.astashin.bookvoed.http.responses.LoginRegistrationResponse
@@ -21,7 +22,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 import org.springframework.core.io.Resource
 import org.springframework.http.HttpHeaders
@@ -75,13 +75,15 @@ class UserController {
         return userRepository.save(updatedUser)
     }
 
-    @PostMapping(path = ["/uploadAvatar"])
-    fun uploadAvatar(@RequestParam("file") file: MultipartFile, @AuthenticationPrincipal user: User): UploadAvatarResponse {
-        val fileName = avatarStorageService.storeAvatar(file, user.userName)
+    @PostMapping(path = ["/avatars"])
+    fun uploadAvatar(@RequestBody request: UploadAvatarRequest, @AuthenticationPrincipal user: User): UploadAvatarResponse {
+        val fileName = avatarStorageService.storeAvatar(request.avatarBase64, request.extension, user.userName)
         val avatarDownloadingUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/users/avatars/")
                 .path(fileName)
                 .toUriString()
 
+        user.avatar = avatarDownloadingUri
+        userRepository.save(user)
         return UploadAvatarResponse(avatarDownloadingUri)
     }
 

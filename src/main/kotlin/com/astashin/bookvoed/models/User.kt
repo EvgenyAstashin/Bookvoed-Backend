@@ -10,7 +10,8 @@ class User(
         @Id
         var userName: String,
         private var passphrase: String,
-        var myBooks: MutableList<String> = mutableListOf()
+        var myBooks: MutableList<String> = mutableListOf(),
+        var avatar: String? = null
 ) : UserDetails {
 
     var firstName: String? = null

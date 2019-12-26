@@ -1,6 +1,7 @@
 package com.astashin.bookvoed
 
 import com.astashin.bookvoed.models.Book
+import com.astashin.bookvoed.models.User
 import com.astashin.bookvoed.models.google.GoogleBookResponse
 import com.astashin.bookvoed.repositories.BookRepository
 import com.google.gson.Gson
@@ -25,6 +26,14 @@ class BookHandler : IBookHandler {
 
     override fun getAllStoredBooks(): List<Book> {
         return bookRepository.findAll()
+    }
+
+    override fun isBookExist(isbn: String): Boolean {
+        return bookRepository.existsById(isbn)
+    }
+
+    override fun getMyBooks(user: User): List<Book> {
+        return bookRepository.findAllById(user.myBooks).toList()
     }
 
     private fun loadBookFromGoogleBooks(isbn: String): GoogleBookResponse {
